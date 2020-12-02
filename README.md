@@ -1,8 +1,7 @@
 # Xamrin Forms Instagram Stories
 That is a "copy", first prototype of same base functionality of stories (Instagram/Facebook)
 
+![Inicial](https://user-images.githubusercontent.com/14874566/100943122-88664380-34f4-11eb-845d-2d2b8ec9ad37.jpg)
+![tela_1](https://user-images.githubusercontent.com/14874566/100943124-89977080-34f4-11eb-8441-90ac777912e8.jpg)
 
-![Inicial](https://user-images.githubusercontent.com/14874566/100943032-5228c400-34f4-11eb-8b1b-99344b535266.jpg)
-
-![tela_1](https://user-images.githubusercontent.com/14874566/100943054-5c4ac280-34f4-11eb-97cf-6130f3aa74fc.jpg)
 
