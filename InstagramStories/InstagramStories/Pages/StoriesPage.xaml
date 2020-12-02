@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodel="clr-namespace:InstagramStories.ViewModels" 
+             xmlns:local="clr-namespace:InstagramStories"
+             BackgroundColor="Black"
+             xmlns:video="clr-namespace:FormsVideoLibrary"
+             x:Class="InstagramStories.Pages.StoriesPage">
+    <ContentPage.Resources>
+        <local:StoryProgressConverter x:Key="storyProgressConverter"/>
+        <local:VideoSourceConverter x:Key="videoSourceConverter"/>
+        <local:ItemIndexCalculator x:Key="itemIndexConverter" ItemsSource="{Binding Path=BindingContext.Stories, Source={x:Reference parent}}"/>
+        <DataTemplate x:Key="imageTemplate">
+            <Grid>
+                <Image Margin="0, 50" VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>
+                <local:AnimatedSwipeUp 
+                    HeightRequest="100"
+                    WidthRequest="100" VerticalOptions="End" HorizontalOptions="Center">
+                </local:AnimatedSwipeUp>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="videoTemplate">
+            <Grid>
+                <video:VideoPlayer
+                           Grid.Row="0"
+                           AutoPlay="True"  
+                           AreTransportControlsEnabled="False"
+                           Source="{Binding StorySource, Converter={StaticResource videoSourceConverter}}" />
+                <local:AnimatedSwipeUp HeightRequest="100" WidthRequest="100" VerticalOptions="End" HorizontalOptions="Center">
+                </local:AnimatedSwipeUp>
+            </Grid>
+        </DataTemplate>
+        <local:StoryTemplateSelector ImageTemplate="{StaticResource imageTemplate}" VideoTemplate="{StaticResource videoTemplate}" x:Key="storySelector"/>
+    </ContentPage.Resources>
+  
+    <ContentPage.Content>
+        <Grid>
+            <CarouselView x:Name="parent" CurrentItem="{Binding CurrentUser}" CurrentItemChangedCommand="{Binding CurentStoriesChangedCommand}" ItemsSource="{Binding Stories}" BackgroundColor="Black">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="userGrid">
+                            <Grid x:Name="storyContainer"
+                              Margin="0, 10"
+                                    BindableLayout.ItemTemplateSelector="{StaticResource storySelector}"
+                                    BindableLayout.ItemsSource="{Binding CurrentStories}"
+                                      BackgroundColor="Black" VerticalOptions="Fill">
+                            </Grid>
+                            <Frame CornerRadius="25" Margin="0,20,0,0" HeightRequest="50" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Start" Padding="0"
+                           BackgroundColor="Orange">
+                                <Frame CornerRadius="24" Padding="0" HeightRequest="46" WidthRequest="46" VerticalOptions="Center" HorizontalOptions="Center">
+                                    <Image Source="https://nikhileshwar96.github.io/Showcase/download.png"/>
+                                </Frame>
+                            </Frame>
+                            <StackLayout HeightRequest="2" Margin="5, 5" Orientation="Horizontal" VerticalOptions="Start"  BindableLayout.ItemsSource="{Binding Stories}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:ProgressBarExt 
+                                        HorizontalOptions="FillAndExpand" 
+                                        ActualProgress="{Binding Path=BindingContext.StoryProgress, Source={x:Reference parent}, Converter={StaticResource storyProgressConverter}}" 
+                                        BackgroundColor="LightGray" ProgressColor="White" MinimumProgress="{Binding Index}">
+                                        </local:ProgressBarExt>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                            <Label Margin="60, 10, 0, 20" VerticalTextAlignment="Center" LineBreakMode="TailTruncation" HeightRequest="50" VerticalOptions="Start" Text="{Binding UserProfile}" TextColor="White"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" BackgroundColor="Transparent">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.LeftSideStatusTappedCommand, Source={x:Reference parent}}" CommandParameter="{Binding}"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                                <Grid Grid.Column="1" BackgroundColor="Transparent">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.RightSideStatusTappedCommand, Source={x:Reference parent}}" CommandParameter="{Binding}"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <Grid HeightRequest="100" VerticalOptions="End" BackgroundColor="#01111111">
+                <Grid.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Up" Command="{Binding Path=BindingContext.SeeMoreCommand, Source={x:Reference parent}}"/>
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

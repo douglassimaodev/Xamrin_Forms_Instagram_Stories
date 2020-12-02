@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:InstagramStories.ViewModels"
+             x:Class="InstagramStories.MainPage">
+
+    <StackLayout>
+        <ScrollView x:Name="parent" Orientation="Horizontal" Margin="0,50,0,0" HorizontalScrollBarVisibility="Never">
+            <StackLayout BindableLayout.ItemsSource="{Binding Stories}" Orientation="Horizontal">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0"
+                           BackgroundColor="Orange">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.UserSelectedCommand, Source={x:Reference parent}}" CommandParameter="{Binding}"/> 
+                            </Frame.GestureRecognizers>
+                            <Frame CornerRadius="24" Padding="0" HeightRequest="46" WidthRequest="46" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Image Source="https://nikhileshwar96.github.io/Showcase/download.png"/>
+                            </Frame>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>
